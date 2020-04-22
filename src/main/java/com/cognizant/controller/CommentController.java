@@ -15,8 +15,13 @@ public class CommentController {
     @Autowired
     private CommentService commentService;
 
-    @GetMapping
-    public List<Comment> getCommentsByPost(@PathVariable int postId) {
-        return this.commentService.getAllCommentsByPost(postId);
+    @GetMapping("/page/{pageNum}")
+    public List<Comment> getCommentsByPost(@PathVariable("postId") int postId, @PathVariable("pageNum") int pageNum) {
+        return this.commentService.getCommentsByPost(postId, pageNum);
+    }
+
+    @GetMapping("/number-of-comments")
+    public int getNumberOfCommentsByPost(@PathVariable int postId) {
+        return this.commentService.getNumberOfCommentsByPost(postId);
     }
 }
