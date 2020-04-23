@@ -4,6 +4,10 @@ import com.cognizant.model.Comment;
 import com.cognizant.model.Post;
 import com.cognizant.repository.CommentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -16,22 +20,9 @@ public class CommentService {
     private CommentRepository commentRepository;
 
     public List<Comment> getCommentsByPost(int postId, int pageNum) {
-        System.out.println("post id: " + postId + ", page number: " + pageNum);
-        Post p = new Post();
-        p.setId(1);
-        Comment c = new Comment();
-        c.setContent("Hello!");
-        c.setDate("04/22/2020");
-        c.setId(1);
-        c.setPost(p);
-        c.setUsername("user1");
-        List<Comment> comments = new ArrayList<>();
-        comments.add(c);
-        if (postId == 2) {
-            comments.add(c);
-        }
-        return comments;
-//        return this.commentRepository.findCommentsByPost(postId);
+        Pageable paging = PageRequest.of(pageNum, 5, Sort.by("id").ascending());
+        List<Comment> pagedResult = this.commentRepository.findCommentsByPost(postId, paging);
+        return pagedResult;
     }
 
     public int getNumberOfCommentsByPost(int postId) {
