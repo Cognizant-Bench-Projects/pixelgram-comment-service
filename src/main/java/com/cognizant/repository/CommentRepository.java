@@ -11,7 +11,7 @@ import java.util.List;
 @Repository
 public interface CommentRepository extends PagingAndSortingRepository<Comment, Integer> {
 
-    @Query("FROM Comment c Where c.post.id = ?1")
+    @Query("FROM Comment c WHERE c.post.id = ?1")
     List<Comment> findCommentsByPost(int postId, Pageable pageable);
 
     @Query("SELECT COUNT(c) FROM Comment c WHERE c.post.id = ?1")
